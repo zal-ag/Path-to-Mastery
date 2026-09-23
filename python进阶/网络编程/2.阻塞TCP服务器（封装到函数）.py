@@ -8,6 +8,7 @@ def create_bind():
     PORT = 8888
 
     server_socket.bind((HOST, PORT))
+    server_socket.settimeout(1.0)
 
     server_socket.listen(5)
     print(f"TCP服务器启动成功，监听 {HOST}:{PORT}")
@@ -18,9 +19,15 @@ def create_bind():
 # 让客户端收发数据
 # 增加异常处理，如果当前的客户端接收、解码、发送异常，都可以关闭当前连接，返回到它的外层server_loop继续接收新的客户端
 def handle_client(conn,client_addr):
+    conn.settimeout(30)
     try:
         while True:
-            recv_data = conn.recv(1024)
+            try:
+                recv_data = conn.recv(1024)
+            except TimeoutError:
+                print(f"客户端{client_addr}长时间没有发送数据，超时断开")
+                continue
+            
             if not recv_data:
                 print(f"客户端{client_addr}断开连接")
                 break
@@ -44,11 +51,21 @@ def server_loop(server_socket):
             conn,client_addr = server_socket.accept()
             print(f"客户端接入: {client_addr}")
             handle_client(conn,client_addr)
+        except TimeoutError:
+            continue
         except Exception as e:
             print(e)
             break
 
 if __name__ == "__main__":
     server_socket = create_bind()
-    server_loop(server_socket)
+    try:
+        server_loop(server_socket)
+    # Windows 系统上，阻塞的socket调用 accept()或recv() 不会响应KeyboardInterrupt信号
+    # 当程序阻塞在 server_socket.accept() 或 conn.recv(1024) 时，即使按下 Ctrl+C，Python也无法立即抛出 KeyboardInterrupt，
+    # 所以 try...except KeyboardInterrupt 不会被执行，需要设置socket超时处理，或者使用多线程处理客户端
+    except KeyboardInterrupt:
+        print("\n服务器停止")
+    finally:
+        server_socket.close()
 
