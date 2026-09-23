@@ -1,9 +1,10 @@
 import socket
+# 创建、绑定、监听
 def create_bind():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-    HOST = "0.0.0.0"
+    HOST = "127.0.0.1"
     PORT = 8888
 
     server_socket.bind((HOST, PORT))
@@ -11,8 +12,11 @@ def create_bind():
     server_socket.listen(5)
     print(f"TCP服务器启动成功，监听 {HOST}:{PORT}")
     
+    # server_client 是函数内部创建的局部变量，需要通过return把这个socket对象交给调用者
     return server_socket
 
+# 让客户端收发数据
+# 增加异常处理，如果当前的客户端接收、解码、发送异常，都可以关闭当前连接，返回到它的外层server_loop继续接收新的客户端
 def handle_client(conn,client_addr):
     try:
         while True:
@@ -31,7 +35,9 @@ def handle_client(conn,client_addr):
         print(e)
     finally:
         conn.close()
-    
+
+# 不断接受客户端连接
+# 增加异常处理，出现异常会退出服务器循环
 def server_loop(server_socket):
     while True:
         try:
@@ -41,14 +47,8 @@ def server_loop(server_socket):
         except Exception as e:
             print(e)
             break
-        
+
 if __name__ == "__main__":
     server_socket = create_bind()
-    try:
-        server_loop(server_socket)
-    except:
-        print("服务器停止")
-    finally:
-        server_socket.close()
+    server_loop(server_socket)
 
-    
