@@ -1,4 +1,5 @@
 import socket
+import threading
 # 创建、绑定、监听
 def create_bind():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -50,7 +51,8 @@ def server_loop(server_socket):
         try:
             conn,client_addr = server_socket.accept()
             print(f"客户端接入: {client_addr}")
-            handle_client(conn,client_addr)
+            t = threading.Thread(target=handle_client,args=(conn,client_addr),daemon=True)
+            t.start()
         except TimeoutError:
             continue
         except Exception as e:
