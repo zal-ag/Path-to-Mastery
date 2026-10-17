@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.Silas.StudentManagementSystem.Def.*;
 import static com.Silas.StudentManagementSystem.StudentFileStore.*;
@@ -12,7 +13,7 @@ public class Menu {
 
     public static void studentInfo() {
 
-        ArrayList<Student> list = new ArrayList<>();
+        List<Student> list = new ArrayList<>();
         Path path = Path.of("D:/aaa/Path-to-Mastery/Java冲刺/oop/src/com/Silas/StudentManagementSystem/Student1.txt");
         try{
             list = loadStudents(path);

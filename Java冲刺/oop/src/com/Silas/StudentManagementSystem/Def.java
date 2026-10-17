@@ -1,13 +1,14 @@
 package com.Silas.StudentManagementSystem;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Def {
 
     static Scanner sc = new Scanner(System.in);
 
-    public static void addStudent(ArrayList<Student> list){
+    public static void addStudent(List<Student> list){
         System.out.println("【添加学生信息】");
         Student s = new Student();
         System.out.println("输入学生id");
@@ -39,7 +40,7 @@ public class Def {
         System.out.println("学生信息添加成功！");
     }
 
-    public static void deleteStudent(ArrayList<Student> list){
+    public static void deleteStudent(List<Student> list){
         System.out.println("【删除学生信息】");
         System.out.println("请输入要删除学生的id：");
         String id = sc.next();
@@ -53,7 +54,7 @@ public class Def {
 
     }
 
-    public static void updateStudent(ArrayList<Student> list){
+    public static void updateStudent(List<Student> list){
         System.out.println("【修改学生信息】");
         System.out.println("请输入要修改学生的id：");
         String id = sc.next();
@@ -104,7 +105,7 @@ public class Def {
         }
     }
 
-    public static void checkStudent(ArrayList<Student> list){
+    public static void checkStudent(List<Student> list){
         System.out.println("【查询学生信息】");
         if(list.isEmpty()) {
             System.out.println("当前无学生信息，请添加后再查询");
@@ -117,7 +118,7 @@ public class Def {
         }
     }
 
-    public static Student findStudent(ArrayList<Student> list,String id){
+    public static Student findStudent(List<Student> list,String id){
         for(Student stu: list){
             if(id.equals(stu.getId())) return stu;
         }
