@@ -20,4 +20,10 @@ public class ListTools {
         }
         return sum;
     }
+    public static <T> void copyInto(
+            List<? extends T> source, List<? super T> target){
+        for(T element : source){
+            target.add(element);
+        }
+    }
 }

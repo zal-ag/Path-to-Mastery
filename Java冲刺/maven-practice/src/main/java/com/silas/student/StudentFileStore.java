@@ -1,6 +1,9 @@
 package com.silas.student;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -12,21 +15,23 @@ public class StudentFileStore {
 
     public static List<Student> loadStudents(Path path) throws IOException {
         List<Student> stuClass = new ArrayList<>();
-        List<String> studentInfo = new ArrayList<>(Files.readAllLines(path));
-        for(String info : studentInfo){
-            stuClass.add(parse(info));
+        try(BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)){
+            String content = reader.readLine();
+            while(content != null){
+                stuClass.add(parse(content));
+                content = reader.readLine();
+            }
         }
         return stuClass;
     }
 
    public static void saveStudents(Path path,List<Student> students) throws IOException{
-        StringBuilder sb = new StringBuilder();
-        for(Student stu : students){
-            sb.append(stu.getId()).append(",")
-                    .append(stu.getName()).append(",")
-                    .append(stu.getAge()).append(",")
-                    .append(stu.getAddress()).append("\n");
+        try(BufferedWriter writer = Files.newBufferedWriter(path)){
+            for(Student stu : students){
+                String record = stu.getId()+","+stu.getName()+","+stu.getAge()+","+stu.getAddress();
+                writer.write(record);
+                writer.newLine();
+            }
         }
-        Files.writeString(path,sb.toString());
    }
 }

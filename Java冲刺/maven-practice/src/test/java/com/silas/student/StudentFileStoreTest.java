@@ -97,4 +97,14 @@ public class StudentFileStoreTest {
         saveStudents(file,stuClass);
         Assertions.assertEquals("",Files.readString(file));
     }
+
+    @Test
+    void rejectsBlankLine() throws IOException {
+        Path file = tempDir.resolve("students.txt");
+        Files.writeString(file,"1001,张三,20,北京\n\n1002,李四,19,上海");
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> StudentFileStore.loadStudents(file)
+        );
+    }
 }
