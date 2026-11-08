@@ -37,3 +37,9 @@ SELECT id, name, age
 FROM student
 WHERE id = 'tx001' OR id = 'tx002'
 ORDER BY id;
+
+
+-- 创建一个用户
+CREATE USER 'Silas'@'localcast' identified by '123456';
+-- 修改密码
+ALTER USER 'Silas'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234';

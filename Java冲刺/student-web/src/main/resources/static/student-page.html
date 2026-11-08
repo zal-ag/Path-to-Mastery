@@ -1,0 +1,54 @@
+<!DOCTYPE html> <!-- 告诉浏览器按 HTML5 方式解析 -->
+<html lang="zh-CN"> <!-- 页面根元素，声明主要语言为中文 -->
+<head> <!-- 页面信息 -->
+    <meta charset="UTF-8"> <!-- 声明字符编码 -->
+    <title>学生管理系统</title> <!-- 浏览器标签标题 -->
+    <style>
+        h1 {
+            color:palevioletred;
+        }
+        table {
+            border-collapse:collapse;
+        }
+        th,td {
+            border:2px solid plum;
+            padding:8px;
+        }
+        </style>
+</head>
+<body> <!-- 页面中显示的内容 -->
+<h1>xx大学学生管理系统</h1> <!-- 一级标题 -->
+<p>欢迎进入学生管理系统</p>  <!-- 正文 -->
+<form>
+    <label for="student-id">学号：</label>
+    <input id="student-id" name="id" type="text">
+    <label for="student-name">姓名：</label>
+    <input id="student-name" name="name" type="text">
+    <label for="student-age">年龄：</label>
+    <input id="student-age" name="age" type="number">
+    <label for="student-address">地址：</label>
+    <input id="student-address" name="address" type="text">
+    <button type="button">新增学生</button>
+</form>
+<table>
+    <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>地址</th>
+    </tr>
+    <tr>
+        <td>1001</td>
+        <td>张三</td>
+        <td>20</td>
+        <td>北京</td>
+    </tr>
+    <tr>
+        <td>1002</td>
+        <td>李四</td>
+        <td>19</td>
+        <td>上海</td>
+    </tr>
+</table>
+</body>
+</html>
